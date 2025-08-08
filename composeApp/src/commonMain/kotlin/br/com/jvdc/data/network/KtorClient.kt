@@ -35,7 +35,7 @@ object KtorClient {
             bearer {
                 loadTokens {
                     BearerTokens(
-                        accessToken ="eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNGVjY2NhMmY0ZjU5Yzg5ZjRlYTdlZDA2ZmQzODRkMSIsIm5iZiI6MTUyMzY0MDk5My4xNjMsInN1YiI6IjVhZDBlYWExMGUwYTI2MzAyZjAwZTM3MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vD8PfoGdgYYXENJZRTzBKCchMpqKlr_xSCHxu-NRBFE",
+                        accessToken ="eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4MGZlMjM4MzI2YmMzZmQxMTM0ZTBjNDY1MjU0ODhjMyIsIm5iZiI6MTYyOTcyNjMxNi40NTUwMDAyLCJzdWIiOiI2MTIzYTY2Y2Q2NTkwYjAwNDVhYTA1ZGUiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.VlCnW3f0OOdm-KTwU0dT_Q5dCJZy2jqRINYz_QRboco",
                         refreshToken = ""
                     )
                 }
