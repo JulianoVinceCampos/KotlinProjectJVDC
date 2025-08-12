@@ -1,7 +1,6 @@
 package br.com.jvdc.data.repository
 
 import br.com.jvdc.data.network.KtorClient
-import br.com.jvdc.domain.model.Movie
 import br.com.jvdc.domain.model.MovieSection
 import br.com.jvdc.domain.model.toModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -9,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
-import kotlin.math.asin
 
 class MoviesRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
