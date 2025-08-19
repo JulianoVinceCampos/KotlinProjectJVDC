@@ -1,5 +1,7 @@
 package br.com.jvdc.data.network
 
+import br.com.jvdc.data.network.model.CreditsListResponse
+import br.com.jvdc.data.network.model.MovieResponse
 import br.com.jvdc.data.network.model.MoviesListResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -11,6 +13,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.http.HttpHeaders
@@ -18,9 +21,9 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 private const val BASE_URL = "https://api.themoviedb.org"
-const val IMAGE_SMALL_BASE_URL = "https://image.tmdb.org/t/p/w154"
+const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p"
 
-object KtorClient {
+class KtorClient {
     private val client = HttpClient {
         install(ContentNegotiation) {
             json(
@@ -48,9 +51,25 @@ object KtorClient {
         }
     }
 
-    suspend fun getMovies(category: String, language: String = "pt-BR"): MoviesListResponse {
+    suspend fun getMovies(category: String): MoviesListResponse {
         return client.get("$BASE_URL/3/movie/$category") {
-            parameter("language", language)
+            addLanguageParam()
         }.body()
+    }
+
+    suspend fun getMovieDetail(movieId: Int): MovieResponse {
+        return client.get("$BASE_URL/3/movie/$movieId") {
+            addLanguageParam()
+        }.body()
+    }
+
+    suspend fun getCredits(movieId: Int): CreditsListResponse {
+        return client.get("$BASE_URL/3/movie/$movieId/credits") {
+            addLanguageParam()
+        }.body()
+    }
+
+    private fun HttpRequestBuilder.addLanguageParam(language: String = "pt-BR"){
+        parameter("language", language)
     }
 }
