@@ -46,16 +46,30 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.lifecycle.viewmodel.compose)
+
             implementation(libs.navigation.compose)
+
             implementation(libs.kotlinx.serialization.json)
+
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.auth)
             implementation(libs.ktor.client.logging)
+
             implementation(libs.kotlinx.coroutines.core)
+
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
+
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose.viewmodel.navigation)
+            implementation(libs.koin.core)
+
+            implementation(libs.xicon.pack.z)
+            implementation(libs.kotlinx.datetime)
+
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
