@@ -21,30 +21,35 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.jvdc.data.repository.MoviesRepository
 import br.com.jvdc.domain.model.MovieSection
 import br.com.jvdc.ui.components.MoviesSection
+import kotlinprojectjvdc.composeapp.generated.resources.Res
+import kotlinprojectjvdc.composeapp.generated.resources.movies_list_popular_movies
+import kotlinprojectjvdc.composeapp.generated.resources.movies_list_top_rated_movies
+import kotlinprojectjvdc.composeapp.generated.resources.movies_list_upcoming_movies
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MoviesListRoute(
-    viewModel: MoviesListViewModel = viewModel {
-        MoviesListViewModel(
-            moviesRepository = MoviesRepository()
-        )
-    }
+    viewModel: MoviesListViewModel = koinViewModel(),
+    navigateToMovieDetail: (movieId: Int) -> Unit
 ) {
 
     val moviesListState by viewModel.moviesListState.collectAsStateWithLifecycle()
 
     MoviesListScreen(
-        moviesListState = moviesListState
+        moviesListState = moviesListState,
+        onMovieClick = navigateToMovieDetail
     )
 }
 
 @Composable
 fun MoviesListScreen(
-    moviesListState: MoviesListViewModel.MoviesListState
+    moviesListState: MoviesListViewModel.MoviesListState,
+    onMovieClick:(movieId:Int) -> Unit,
 ) {
     Scaffold { paddingValues ->
         Box(
-            modifier = Modifier.fillMaxSize().padding()
+            modifier = Modifier.fillMaxSize().padding(paddingValues)
         ) {
             when (moviesListState) {
                 MoviesListViewModel.MoviesListState.Loading -> {
@@ -61,13 +66,14 @@ fun MoviesListScreen(
                     ) {
                         items(moviesListState.movieSections) { movieSection ->
                             val title = when (movieSection.sectionType) {
-                                MovieSection.SectionType.POPULAR -> "Popular Movies"
-                                MovieSection.SectionType.TOP_RATED -> "Top Rated Movies"
-                                MovieSection.SectionType.UPCOMING -> "UpComing Movies"
+                                MovieSection.SectionType.POPULAR -> stringResource(Res.string.movies_list_popular_movies)
+                                MovieSection.SectionType.TOP_RATED -> stringResource(Res.string.movies_list_top_rated_movies)
+                                MovieSection.SectionType.UPCOMING -> stringResource(Res.string.movies_list_upcoming_movies)
                             }
                             MoviesSection(
                                 title = title,
-                                movies = movieSection.movies
+                                movies = movieSection.movies,
+                                onMoviePosterClick = onMovieClick
                             )
                         }
                     }
