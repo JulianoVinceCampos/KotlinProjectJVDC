@@ -1,5 +1,6 @@
 package br.com.jvdc.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -19,10 +20,15 @@ import coil3.compose.AsyncImage
 @Composable
 fun MoviePoster(
     movie: Movie,
+    onMoviePosterClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.width(140.dp)
+        modifier = modifier
+            .clickable {
+                onMoviePosterClick()
+            }
+            .width(140.dp)
     ) {
         Card(
             modifier = Modifier.width(140.dp).height(210.dp), shape = RoundedCornerShape(12.dp)
