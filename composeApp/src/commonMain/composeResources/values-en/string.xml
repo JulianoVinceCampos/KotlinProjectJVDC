@@ -1,0 +1,9 @@
+<resources>
+    <string name="movies_list_popular_movies">Popular Movies</string>
+    <string name="movies_list_top_rated_movies">Top RatedMovies</string>
+    <string name="movies_list_upcoming_movies">Upcoming Movies</string>
+
+    <string name="movies_detail_watch_trailer">Watch Trailer</string>
+    <string name="movies_detail_title">Movie detail</string>
+
+</resources>
