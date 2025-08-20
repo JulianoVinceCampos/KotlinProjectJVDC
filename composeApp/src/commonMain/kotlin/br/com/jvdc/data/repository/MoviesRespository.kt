@@ -1,8 +1,10 @@
 package br.com.jvdc.data.repository
 
+import br.com.jvdc.data.mapper.toModel
 import br.com.jvdc.data.network.KtorClient
+import br.com.jvdc.domain.model.ImageSize
+import br.com.jvdc.domain.model.Movie
 import br.com.jvdc.domain.model.MovieSection
-import br.com.jvdc.domain.model.toModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -10,15 +12,16 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
 class MoviesRepository(
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ktorClient: KtorClient,//TODO Refatorar para receber um abstração
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
 
     suspend fun getMovieSections(): List<MovieSection> {
         return withContext(ioDispatcher) {
-            val popularMoviesDeferred = async { KtorClient.getMovies("popular") }
-            val topRatedMoviesDeferred = async { KtorClient.getMovies("top_rated") }
-            val upcomingMoviesDeferred = async { KtorClient.getMovies("upcoming") }
+            val popularMoviesDeferred = async { ktorClient.getMovies("popular") }
+            val topRatedMoviesDeferred = async { ktorClient.getMovies("top_rated") }
+            val upcomingMoviesDeferred = async { ktorClient.getMovies("upcoming") }
 
             val popularMovies = popularMoviesDeferred.await()
             val topRatedMovies = topRatedMoviesDeferred.await()
@@ -44,6 +47,23 @@ class MoviesRepository(
                     }
                 )
             )
+        }
+    }
+
+    suspend fun getMovieDetail(movieId: Int): Result<Movie>{
+        return withContext(ioDispatcher){
+            runCatching {
+                val movieDetailDeferred = async { ktorClient.getMovieDetail(movieId) }
+                val creditsDeferred = async { ktorClient.getCredits(movieId) }
+
+                val movieDetailResponse = movieDetailDeferred.await()
+                val creditsResponse = creditsDeferred.await()
+
+                movieDetailResponse.toModel(
+                   castMembersResponse = creditsResponse.cast,
+                   imageSize = ImageSize.X_LARGE
+                )
+            }
         }
     }
 }
